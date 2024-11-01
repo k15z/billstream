@@ -6,8 +6,10 @@ authors = ["Kevin Zhang <me@kevz.dev>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.10"
+python = "3.10.15"
 solathon = "^1.0.4"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
