@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "sdk"
+version = "0.1.0"
+description = ""
+authors = ["Kevin Zhang <me@kevz.dev>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.10"
+solathon = "^1.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
