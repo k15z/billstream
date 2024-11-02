@@ -92,6 +92,13 @@ const services = ref([
         category: "Productivity",
     },
     {
+        name: "Wikipedia",
+        subtitle: "Search and retrieve Wikipedia articles.",
+        description: "The <code>wikipedia_01</code> tool lets your agent search and extract information from Wikipedia articles.",
+        cost_per_request: 0.001,
+        category: "Knowledge",
+    },
+    {
         name: "Spotify",
         subtitle: "Control music playback and playlists.",
         description: "The <code>spotify_01</code> tool lets your agent control music playback, create playlists, and search for songs on Spotify.",
@@ -111,13 +118,6 @@ const services = ref([
         description: "The <code>twitter_01</code> tool allows your agent to post tweets, monitor trends, and engage with Twitter content.",
         cost_per_request: 0.0,
         category: "Social",
-    },
-    {
-        name: "Wikipedia",
-        subtitle: "Search and retrieve Wikipedia articles.",
-        description: "The <code>wikipedia_01</code> tool lets your agent search and extract information from Wikipedia articles.",
-        cost_per_request: 0.001,
-        category: "Knowledge",
     },
     {
         name: "Amazon",
