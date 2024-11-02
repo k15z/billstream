@@ -78,6 +78,13 @@ const services = ref([
         category: "Finance",
     },
     {
+        name: "Crypto Compliance",
+        subtitle: "Checking if a crypto address is on an OFAC sanctions list.",
+        description: "The <code>compliance_01</code> tool allows your agent to check if a crypto address is on an OFAC sanctions list.",
+        cost_per_request: 0.001,
+        category: "Finance",
+    },
+    {
         name: "Gmail",
         subtitle: "Send and read emails through Gmail.",
         description: "The <code>gmail_01</code> tool enables your agent to send and read emails through your Gmail account with proper authentication.",
