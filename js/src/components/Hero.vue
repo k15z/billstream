@@ -15,7 +15,7 @@
 
 <style scoped>
 .background {
-    background-image: url('/agent-toolkit-background.svg');
+    background-image: url('@/assets/agent-toolkit-background.svg');
     background-size: cover;
     background-position: center;
 }
