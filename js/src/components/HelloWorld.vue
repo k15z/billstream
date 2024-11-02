@@ -1,7 +1,6 @@
 <template>
-  <v-container class="fill-height">
-    <v-responsive class="align-centerfill-height mx-auto" max-width="900">
-
+  <v-container  style="height: 100vh;">
+    <v-responsive class="mx-auto" style="height: 100vh; display: flex; align-items: center;" max-width="900">
       <div class="text-center">
         <h1 class="text-h2 font-weight-bold">The Agent Toolkit</h1>
         <h3 class="text-h5 font-weight-light mt-4">
@@ -19,7 +18,7 @@
         <h3 class="text-h5 font-weight-light mt-4 mb-8">
             Any tool. Any network. Any scale.
         </h3>
-        <v-btn>Explore</v-btn>
+        <v-btn @click="emit('explore')">Explore</v-btn>
       </div>
 
     </v-responsive>
@@ -29,6 +28,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import VCodeBlock from '@wdns/vue-code-block';
+
+const emit = defineEmits(["explore"]);
 
 const prompt = ref("");
 const wallet = ref("");
