@@ -1,9 +1,14 @@
 import json
+import openai
+import colorama
+from colorama import Fore, Style, Back
 from sdk import AgentToolkit
 
-if __name__ == "__main__":
-    import openai
+colorama.init()
 
+
+
+if __name__ == "__main__":
     tk = AgentToolkit(base_url="http://localhost:8000", wallet=None)
 
     messages = [
@@ -11,7 +16,7 @@ if __name__ == "__main__":
             "role": "system",
             "content": "You are a helpful customer support assistant. Use the supplied tools to assist the user.",
         },
-        {"role": "user", "content": input("User: ")},
+        {"role": "user", "content": input(Fore.YELLOW + "User: " + Style.RESET_ALL)},
     ]
 
     response = openai.chat.completions.create(
@@ -25,13 +30,13 @@ if __name__ == "__main__":
             id = response.choices[0].message.tool_calls[0].id
             func = response.choices[0].message.tool_calls[0].function
             print("=" * 100)
-            print("Tool Call:")
+            print(Fore.GREEN + "Tool Call:" + Style.RESET_ALL)
             print(func)
             print()
 
             result = tk.call(func.name, func.arguments)
             print("=" * 100)
-            print("Tool Output:")
+            print(Fore.GREEN + "Tool Output:" + Style.RESET_ALL)
             print(str(result)[:100] + ("..." if len(str(result)) > 100 else ""))
             print()
 
@@ -56,13 +61,13 @@ if __name__ == "__main__":
 
         else:
             print("=" * 100)
-            print("Assistant:")
+            print(Fore.BLUE + "Assistant:" + Style.RESET_ALL)
             print(response.choices[0].message.content)
             print()
 
             messages.append(response.choices[0].message)
             print("="*100)
-            messages.append({"role": "user", "content": input("User: ")})
+            messages.append({"role": "user", "content": input(Fore.YELLOW + "User: " + Style.RESET_ALL)})
             print()
 
             response = openai.chat.completions.create(model="gpt-4o", messages=messages, tools=tk.tools())
