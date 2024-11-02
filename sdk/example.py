@@ -20,39 +20,51 @@ if __name__ == "__main__":
         tools=tk.tools(),
     )
 
-    if response.choices[0].message.tool_calls:
-        id = response.choices[0].message.tool_calls[0].id
-        func = response.choices[0].message.tool_calls[0].function
-        print("=" * 100)
-        print("Tool Call:")
-        print(func)
-        print()
+    while True:
+        if response.choices[0].message.tool_calls:
+            id = response.choices[0].message.tool_calls[0].id
+            func = response.choices[0].message.tool_calls[0].function
+            print("=" * 100)
+            print("Tool Call:")
+            print(func)
+            print()
 
-        result = tk.call(func.name, func.arguments)
-        print("=" * 100)
-        print("Tool Output:")
-        print(result)
-        print()
+            result = tk.call(func.name, func.arguments)
+            print("=" * 100)
+            print("Tool Output:")
+            print(result)
+            print()
 
-        messages.append(
-            {
-                "role": "assistant",
-                "tool_calls": [
-                    {
-                        "id": id,
-                        "type": "function",
-                        "function": {
-                            "name": func.name,
-                            "arguments": func.arguments,
-                        },
-                    }
-                ],
-            }
-        )
-        messages.append({"role": "tool", "content": json.dumps(result), "tool_call_id": id})
+            messages.append(
+                {
+                    "role": "assistant",
+                    "tool_calls": [
+                        {
+                            "id": id,
+                            "type": "function",
+                            "function": {
+                                "name": func.name,
+                                "arguments": func.arguments,
+                            },
+                        }
+                    ],
+                }
+            )
+            messages.append({"role": "tool", "content": json.dumps(result), "tool_call_id": id})
 
-        response = openai.chat.completions.create(model="gpt-4o", messages=messages)
-        print("=" * 100)
-        print("Assistant:")
-        print(response.choices[0].message.content)
-        print()
+            response = openai.chat.completions.create(model="gpt-4o", messages=messages)
+            print("=" * 100)
+            print("Assistant:")
+            print(response.choices[0].message.content)
+            print()
+        
+        else:
+            messages.append(response.choices[0].message)
+            print("="*100)
+            messages.append({"role": "user", "content": input("User: ")})
+
+            response = openai.chat.completions.create(model="gpt-4o", messages=messages)
+            print("=" * 100)
+            print("Assistant:")
+            print(response.choices[0].message.content)
+            print()

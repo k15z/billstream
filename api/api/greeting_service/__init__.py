@@ -10,7 +10,6 @@ router = fastapi.APIRouter(
 )
 
 
-
 class GreetingRequest(BaseModel):
     name: str
 
@@ -22,6 +21,7 @@ class GreetingResponse(BaseModel):
 id_to_request = {}
 id_to_payment_request = {}
 
+
 @router.post("/spec")
 async def spec(request: GreetingRequest) -> GreetingResponse:
     """Example API.
@@ -29,7 +29,6 @@ async def spec(request: GreetingRequest) -> GreetingResponse:
     Given the user's name, return a greeting.
     """
     raise NotImplementedError("This is a stub.")
-
 
 
 @router.post("/")

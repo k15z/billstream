@@ -10,7 +10,6 @@ router = fastapi.APIRouter(
 )
 
 
-
 class WeatherRequest(BaseModel):
     city: str
 
@@ -21,6 +20,7 @@ class WeatherResponse(BaseModel):
 
 id_to_request = {}
 id_to_payment_request = {}
+
 
 @router.post("/spec")
 async def spec(request: WeatherRequest) -> WeatherResponse:
@@ -45,7 +45,9 @@ async def get(id: str) -> WeatherResponse:
         raise fastapi.HTTPException(status_code=402, detail="Payment not received")
     weather_api_key = "f093c2b5da3b49dfa9104019240211"
     city = id_to_request[id].city
-    response = requests.get(f"https://api.weatherapi.com/v1/current.json?key={weather_api_key}&q={city}&aqi=no")
+    response = requests.get(
+        f"https://api.weatherapi.com/v1/current.json?key={weather_api_key}&q={city}&aqi=no"
+    )
     weather_data = response.json()
-    weather_condition = weather_data['current']['condition']['text']
+    weather_condition = weather_data["current"]["condition"]["text"]
     return WeatherResponse(condition=weather_condition)
