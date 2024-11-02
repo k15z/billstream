@@ -23,7 +23,10 @@ id_to_request = {}
 @router.post("/spec")
 
 async def spec(request: ExampleRequest) -> ExampleResponse:
-    """Example API."""
+    """Example API.
+
+    This function takes the name and returns a greeting.
+    """
     raise NotImplementedError("This is a stub.")
 
 

@@ -10,6 +10,7 @@ python = "^3.10"
 fastapi = {extras = ["standard"], version = "^0.115.4"}
 requests = "^2.32.3"
 jsonref = "^1.1.0"
+openai = "^1.53.0"
 
 
 [tool.poetry.group.dev.dependencies]
