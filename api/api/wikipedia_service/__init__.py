@@ -46,4 +46,4 @@ async def get(id: str) -> WikipediaResponse:
     pages = wikipedia.search(id_to_request[id].query)
     print(pages, pages[0])
     summary = wikipedia.page(pages[0]).content
-    return WikipediaResponse(message=summary)
+    return WikipediaResponse(message=summary[:10_000])
