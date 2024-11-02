@@ -6,7 +6,7 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols=4 v-for="service in filteredServices" :key="service.name">
+            <v-col cols="12" md="4" v-for="service in filteredServices" :key="service.name">
                 <v-card height="100%">
                     <v-card-item>
                         <v-card-title>{{ service.name }}</v-card-title>

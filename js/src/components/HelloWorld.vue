@@ -1,5 +1,5 @@
 <template>
-  <v-container  style="height: 100vh;">
+  <v-container  style="min-height: 100vh;">
     <v-responsive class="mx-auto" style="height: 100vh; display: flex; align-items: center;" max-width="900">
       <div class="text-center">
         <h1 class="text-h2 font-weight-bold">The Agent Toolkit</h1>
