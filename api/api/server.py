@@ -7,6 +7,7 @@ from api.linkedin_service import router as linkedin_router
 from api.calendar_service import router as calendar_router
 from api.wikipedia_service import router as wikipedia_router
 from api.compli_service import router as compli_router
+from api.cred_service import router as cred_router
 
 app = fastapi.FastAPI(
     title="Agent Toolkit",
@@ -21,3 +22,4 @@ app.include_router(alpaca_router)
 app.include_router(calendar_router)
 app.include_router(wikipedia_router)
 app.include_router(compli_router)
+app.include_router(cred_router)
