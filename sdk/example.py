@@ -52,18 +52,19 @@ if __name__ == "__main__":
             )
             messages.append({"role": "tool", "content": json.dumps(result), "tool_call_id": id})
 
-            response = openai.chat.completions.create(model="gpt-4o", messages=messages)
+            response = openai.chat.completions.create(model="gpt-4o", messages=messages, tools=tk.tools())
+
+        else:
             print("=" * 100)
             print("Assistant:")
             print(response.choices[0].message.content)
             print()
-        
-        else:
+
             messages.append(response.choices[0].message)
             print("="*100)
             messages.append({"role": "user", "content": input("User: ")})
 
-            response = openai.chat.completions.create(model="gpt-4o", messages=messages)
+            response = openai.chat.completions.create(model="gpt-4o", messages=messages, tools=tk.tools())
             print("=" * 100)
             print("Assistant:")
             print(response.choices[0].message.content)
