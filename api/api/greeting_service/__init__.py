@@ -1,7 +1,7 @@
 import uuid
 import fastapi
 from pydantic import BaseModel
-from api._types import RequestPaymentResponse
+from api.payment import PaymentRequest
 import requests
 
 router = fastapi.APIRouter(
@@ -20,6 +20,8 @@ class GreetingResponse(BaseModel):
 
 
 id_to_request = {}
+id_to_payment_request = {}
+
 @router.post("/spec")
 async def spec(request: GreetingRequest) -> GreetingResponse:
     """Example API.
@@ -31,14 +33,16 @@ async def spec(request: GreetingRequest) -> GreetingResponse:
 
 
 @router.post("/")
-async def post(request: GreetingRequest) -> RequestPaymentResponse:
+async def post(request: GreetingRequest) -> PaymentRequest:
     id = str(uuid.uuid4())
     id_to_request[id] = request
-    return RequestPaymentResponse(id=id, address="0x123", amount=100)
+    id_to_payment_request[id] = PaymentRequest(id=id, address="0x123", amount=100)
+    return id_to_payment_request[id]
 
 
 @router.get("/")
 async def get(id: str) -> GreetingResponse:
+    if not id_to_payment_request[id].was_paid():
+        raise fastapi.HTTPException(status_code=402, detail="Payment not received")
     request = id_to_request[id]
-    # process request
     return GreetingResponse(message=f"Hello, {request.name}!")
