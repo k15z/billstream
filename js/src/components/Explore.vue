@@ -19,9 +19,16 @@
                             <v-chip color="primary">
                                 {{ service.category }}
                             </v-chip>
-                            <v-chip color="secondary">
-                                Cost: ${{ service.cost_per_request }}
-                            </v-chip>
+                            <template v-if="service.cost_per_request > 0">
+                                <v-chip color="secondary">
+                                    Cost: ${{ service.cost_per_request }}
+                                </v-chip>
+                            </template>
+                            <template v-else>
+                                <v-chip color="yellow">
+                                    Coming Soon!
+                                </v-chip>
+                            </template>
                         </div>
                     </v-card-text>
                 </v-card>
@@ -50,6 +57,13 @@ const services = ref([
         category: "News",
     },
     {
+        name: "Crypto",
+        subtitle: "Get crypto prices and news.",
+        description: "The <code>crypto_01</code> tool allows your agent to get crypto prices and news.",
+        cost_per_request: 0.0,
+        category: "Finance",
+    },
+    {
         name: "Weather",
         subtitle: "Get the current weather in any city.",
         description: "The <code>weather_01</code> tool allows your agent to get the current weather in any city.",
@@ -60,77 +74,70 @@ const services = ref([
         name: "Stocks",
         subtitle: "Get stock prices and news.",
         description: "The <code>stocks_01</code> tool allows your agent to get stock prices and news.",
-        cost_per_request: 0.005,
-        category: "Finance",
-    },
-    {
-        name: "Crypto",
-        subtitle: "Get crypto prices and news.",
-        description: "The <code>crypto_01</code> tool allows your agent to get crypto prices and news.",
-        cost_per_request: 0.005,
+        cost_per_request: 0.0,
         category: "Finance",
     },
     {
         name: "Gmail",
         subtitle: "Send and read emails through Gmail.",
         description: "The <code>gmail_01</code> tool enables your agent to send and read emails through your Gmail account with proper authentication.",
-        cost_per_request: 0.03,
+        cost_per_request: 0.0,
         category: "Communication",
     },
     {
         name: "Calendar",
         subtitle: "Manage calendar events and schedules.",
         description: "The <code>calendar_01</code> tool allows your agent to create, modify and check calendar events across multiple platforms.",
-        cost_per_request: 0.02,
+        cost_per_request: 0.0,
         category: "Productivity",
     },
     {
         name: "Spotify",
         subtitle: "Control music playback and playlists.",
         description: "The <code>spotify_01</code> tool lets your agent control music playback, create playlists, and search for songs on Spotify.",
-        cost_per_request: 0.02,
+        cost_per_request: 0.0,
         category: "Entertainment",
     },
     {
         name: "Maps",
         subtitle: "Get directions and location information.",
         description: "The <code>maps_01</code> tool enables your agent to find directions, calculate distances, and get location details.",
-        cost_per_request: 0.015,
+        cost_per_request: 0.0,
         category: "Navigation",
     },
     {
         name: "Twitter",
         subtitle: "Post tweets and monitor trends.",
         description: "The <code>twitter_01</code> tool allows your agent to post tweets, monitor trends, and engage with Twitter content.",
-        cost_per_request: 0.04,
+        cost_per_request: 0.0,
         category: "Social",
     },
     {
         name: "Wikipedia",
         subtitle: "Search and retrieve Wikipedia articles.",
         description: "The <code>wikipedia_01</code> tool lets your agent search and extract information from Wikipedia articles.",
-        cost_per_request: 0.005,
+        cost_per_request: 0.001,
         category: "Knowledge",
     },
     {
         name: "Amazon",
         subtitle: "Search products and track prices.",
         description: "The <code>amazon_01</code> tool enables your agent to search products, track prices, and monitor availability on Amazon.",
-        cost_per_request: 0.03,
+        cost_per_request: 0.0,
         category: "Shopping",
     },
     {
         name: "Slack",
         subtitle: "Send messages and manage channels.",
         description: "The <code>slack_01</code> tool allows your agent to send messages, manage channels, and interact with Slack workspaces.",
-        cost_per_request: 0.025,
+        cost_per_request: 0.0,
         category: "Communication",
     },
     {
         name: "GitHub",
         subtitle: "Manage repositories and issues.",
         description: "The <code>github_01</code> tool lets your agent create issues, manage repositories, and monitor GitHub activities.",
-        cost_per_request: 0.02,
+        cost_per_request: 0.0,
         category: "Development",
     }
 ]);
