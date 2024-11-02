@@ -1,7 +1,6 @@
 import json
 import requests
 import jsonref
-from pprint import pprint as pp
 
 
 def openapi_to_functions(openapi_spec):
@@ -31,28 +30,49 @@ def openapi_to_functions(openapi_spec):
                 schema["properties"] = req_body["properties"]
 
             functions.append(
-                {
-                    "type": "function",
-                    "function": {
-                        "name": function_name,
-                        "description": desc,
-                        "parameters": schema,
+                (
+                    path,
+                    {
+                        "type": "function",
+                        "function": {
+                            "name": function_name,
+                            "description": desc,
+                            "parameters": schema,
+                        },
                     },
-                }
+                )
             )
 
     return functions
 
 
+def call_function(path, func_args):
+    response = requests.post(path, json=func_args)
+    payment_instructions = response.json()
+
+    # TODO: Pay it!
+
+    response = requests.get(path + "?id=" + payment_instructions["id"])
+    print(response.text)
+    return response.json()
+
+
 if __name__ == "__main__":
     import openai
 
-    openapi_spec = requests.get("http://localhost:8000/openapi.json").json()
+    BASE_URL = "http://localhost:8000"
+
+    openapi_spec = requests.get(f"{BASE_URL}/openapi.json").json()
     functions = openapi_to_functions(openapi_spec)
 
     tools = []
-    for function in functions:
+    func_name_to_path = {}
+    for path, function in functions:
+        print(path)
         tools.append(function)
+        func_name_to_path[function["function"]["name"]] = BASE_URL + path.replace(
+            "/spec", "/"
+        )
         print(json.dumps(function, indent=2))
         print()
         print()
@@ -73,4 +93,5 @@ if __name__ == "__main__":
 
     print(response)
     if response.choices[0].message.tool_calls:
-        print(response.choices[0].message.tool_calls[0].function)
+        func = response.choices[0].message.tool_calls[0].function
+        call_function(func_name_to_path[func.name], json.loads(func.arguments))
