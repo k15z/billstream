@@ -4,7 +4,7 @@ import colorama
 from colorama import Fore, Style, Back
 from sdk import AgentToolkit
 from sdk.wallets import PrivyWallet
-
+from sdk.spinner import Spinner
 colorama.init()
 
 
@@ -23,11 +23,12 @@ if __name__ == "__main__":
         {"role": "user", "content": input(Fore.YELLOW + "User: " + Style.RESET_ALL)},
     ]
 
-    response = openai.chat.completions.create(
-        model="gpt-4o",
-        messages=messages,
-        tools=tk.tools(),
-    )
+    with Spinner():
+        response = openai.chat.completions.create(
+            model="gpt-4o",
+            messages=messages,
+            tools=tk.tools(),
+        )
 
     while True:
         if response.choices[0].message.tool_calls:
@@ -63,9 +64,10 @@ if __name__ == "__main__":
                 {"role": "tool", "content": json.dumps(result), "tool_call_id": id}
             )
 
-            response = openai.chat.completions.create(
-                model="gpt-4o", messages=messages, tools=tk.tools()
-            )
+            with Spinner():
+                response = openai.chat.completions.create(
+                    model="gpt-4o", messages=messages, tools=tk.tools()
+                )
 
         else:
             print("=" * 100)
@@ -83,6 +85,7 @@ if __name__ == "__main__":
             )
             print()
 
-            response = openai.chat.completions.create(
-                model="gpt-4o", messages=messages, tools=tk.tools()
-            )
+            with Spinner():
+                response = openai.chat.completions.create(
+                    model="gpt-4o", messages=messages, tools=tk.tools()
+                )
