@@ -3,13 +3,17 @@ import openai
 import colorama
 from colorama import Fore, Style, Back
 from sdk import AgentToolkit
+from sdk.wallets import PrivyWallet
 
 colorama.init()
 
 
-
 if __name__ == "__main__":
-    tk = AgentToolkit(base_url="http://localhost:8000", wallet=None)
+    tk = AgentToolkit(
+        wallet=PrivyWallet(
+            secret_key="sk_test_51O8332JQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQ"
+        )
+    )
 
     messages = [
         {
@@ -55,9 +59,13 @@ if __name__ == "__main__":
                     ],
                 }
             )
-            messages.append({"role": "tool", "content": json.dumps(result), "tool_call_id": id})
+            messages.append(
+                {"role": "tool", "content": json.dumps(result), "tool_call_id": id}
+            )
 
-            response = openai.chat.completions.create(model="gpt-4o", messages=messages, tools=tk.tools())
+            response = openai.chat.completions.create(
+                model="gpt-4o", messages=messages, tools=tk.tools()
+            )
 
         else:
             print("=" * 100)
@@ -66,8 +74,15 @@ if __name__ == "__main__":
             print()
 
             messages.append(response.choices[0].message)
-            print("="*100)
-            messages.append({"role": "user", "content": input(Fore.YELLOW + "User: " + Style.RESET_ALL)})
+            print("=" * 100)
+            messages.append(
+                {
+                    "role": "user",
+                    "content": input(Fore.YELLOW + "User: " + Style.RESET_ALL),
+                }
+            )
             print()
 
-            response = openai.chat.completions.create(model="gpt-4o", messages=messages, tools=tk.tools())
+            response = openai.chat.completions.create(
+                model="gpt-4o", messages=messages, tools=tk.tools()
+            )

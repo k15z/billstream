@@ -30,15 +30,19 @@ class Profile(BaseModel):
 class LinkedinResponse(BaseModel):
     profiles: list[Profile]
 
+
 class LinkedinMessageResponse(BaseModel):
     message: str
+
 
 id_to_request = {}
 id_to_payment_request = {}
 
 
 @router.post("/spec")
-async def spec(request: LinkedinRequest) -> Union[LinkedinResponse, LinkedinMessageResponse]:
+async def spec(
+    request: LinkedinRequest,
+) -> Union[LinkedinResponse, LinkedinMessageResponse]:
     """LinkedIn API.
 
     This finds the specified profile name on LinkedIn. If message is not set, then
@@ -69,7 +73,7 @@ async def get(id: str) -> Union[LinkedinResponse, LinkedinMessageResponse]:
     }
     headers = {
         "Authorization": f"Bearer {os.getenv('ANON_API_KEY')}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
     }
 
     response = requests.request("POST", url, json=payload, headers=headers)

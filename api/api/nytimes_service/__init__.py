@@ -44,7 +44,7 @@ async def spec(request: NYTimesRequest) -> NYTimesResponse:
         insider, magazine, movies, nyregion, obituaries, opinion, politics, realestate,
         science, sports, sundayreview, technology, theater, t-magazine, travel,
         upshot, us, and world
-    
+
     If you want news but aren't sure what category, you can just use "us".
     """
     raise NotImplementedError("This is a stub.")
