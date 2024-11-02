@@ -15,7 +15,6 @@ jsonref = "^1.1.0"
 openai = "^1.53.0"
 colorama = "^0.4.6"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

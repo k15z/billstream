@@ -1,12 +1,6 @@
 from typing import Any
+from pydantic import BaseModel
 
-class Wallet:
-    def pay(self, payment_instructions: Any) -> None:
+class Wallet(BaseModel):
+    def pay(self, request: dict) -> str:
         raise NotImplementedError("This is a stub.")
-
-class PrivyWallet(Wallet):
-    def __init__(self, secret_key: str):
-        self.secret_key = secret_key
-
-    def pay(self, payment_instructions: Any) -> None:
-        pass

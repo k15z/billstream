@@ -1,13 +1,24 @@
 from dotenv import load_dotenv
-from sdk.payments.solana import transfer_sol
+from sdk.payments import bridge
+from sdk.payments.solana import transfer_sol, transfer_usdc
+from sdk.payments.bridge import create_bridge, get_transfer
+import json
 
 load_dotenv()
 
-receiver = "7EEJrsdnm9heACSxakCcvUzxkWjno3FaCNdzcBCEZPFv"
 sender = "FbG8R8Upa3d19gFzc9fMwPzzCNTzn4hLprCCaYSK1knN"
 
-# This is the amount in lamports
-amount = 1250000
+usdc_eth_to_address = "0x54F89EeD99D0E9a6154c4207F9bF4e16FB351ED6"
 
-result = transfer_sol(amount=amount, to=receiver, sender=sender)
-print("Transaction response:", result)
+bridge = create_bridge("1.00", sender, usdc_eth_to_address, "N0J9N7" )
+print(bridge)
+
+# result = transfer_usdc(amount=bridge.amount, to=bridge.to_address, sender=bridge.from_address)
+
+# print("txn:")
+# print(result)
+# print()
+
+response = get_transfer(bridge.id)
+
+print(json.loads(response.text))

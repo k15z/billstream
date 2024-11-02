@@ -72,9 +72,10 @@ class AgentToolkit:
         print(payment_instructions)
         print()
         if self.wallet:
-            # TODO: Actually do this :p
-            self.wallet.pay(payment_instructions)
-        return self.fetch(tool_name, payment_instructions["id"])
+            response = self.wallet.pay(request=payment_instructions)
+        else:
+            response = "test:test"
+        return self.fetch(tool_name, payment_instructions["id"], proof=response)
 
     def initiate(self, tool_name: str, tool_args: dict):
         path = self._name_to_path[tool_name]
@@ -82,7 +83,7 @@ class AgentToolkit:
         payment_instructions = response.json()
         return payment_instructions
 
-    def fetch(self, tool_name: str, id: str):
+    def fetch(self, tool_name: str, id: str, proof: str):
         path = self._name_to_path[tool_name]
-        response = requests.get(path + "?id=" + id)
+        response = requests.get(path + "?id=" + id + "&proof=" + proof)
         return response.json()

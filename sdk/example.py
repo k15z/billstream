@@ -3,15 +3,16 @@ import openai
 import colorama
 from colorama import Fore, Style, Back
 from sdk import AgentToolkit
-from sdk.wallets import PrivyWallet
 from sdk.spinner import Spinner
+from sdk.payments.privy_wallet import PrivyWallet
+
 colorama.init()
 
 
 if __name__ == "__main__":
     tk = AgentToolkit(
         wallet=PrivyWallet(
-            secret_key="sk_test_51O8332JQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQJQ"
+            address="FbG8R8Upa3d19gFzc9fMwPzzCNTzn4hLprCCaYSK1knN"
         )
     )
 

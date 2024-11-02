@@ -1,6 +1,6 @@
 import os
 import json
-from base64 import b64decode, b64encode
+from base64 import b64encode
 import requests
 from dotenv import load_dotenv
 
