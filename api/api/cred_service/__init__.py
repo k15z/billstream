@@ -35,7 +35,7 @@ async def spec(request: CredReportRequest) -> CredReportResponse:
 async def post(request: CredReportRequest) -> PaymentRequest:
     id = str(uuid.uuid4())
     id_to_request[id] = request
-    id_to_payment_request[id] = PaymentRequest(id=id, address="0x123", amount=100)
+    id_to_payment_request[id] = PaymentRequest(id=id, address="0x54F89EeD99D0E9a6154c4207F9bF4e16FB351ED6", amount=1)
     return PaymentRequest(id=id, address="0x123", amount=100)
 
 

@@ -72,7 +72,10 @@ class AgentToolkit:
         print(payment_instructions)
         print()
         if self.wallet:
-            response = self.wallet.pay(request=payment_instructions)
+            try:
+                response = self.wallet.pay(request=payment_instructions)
+            except Exception as e:
+                response = "error:error"
         else:
             response = "test:test"
         return self.fetch(tool_name, payment_instructions["id"], proof=response)
