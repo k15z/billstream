@@ -64,15 +64,17 @@ class AgentToolkit:
     
     def call(self, tool_name: str, tool_args: dict):
         payment_instructions = self.initiate(tool_name, tool_args)
+        print("="*100)
+        print("Paying for tool call")
+        print(payment_instructions)
+        print()
         if self.wallet:
             # TODO: Actually do this :p
             self.wallet.pay(payment_instructions)
-        print(payment_instructions)
         return self.fetch(tool_name, payment_instructions["id"])
     
     def initiate(self, tool_name: str, tool_args: dict):
         path = self._name_to_path[tool_name]
-        print(path, tool_args)
         response = requests.post(path, json=json.loads(tool_args))
         payment_instructions = response.json()
         return payment_instructions

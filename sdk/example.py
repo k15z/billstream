@@ -32,7 +32,7 @@ if __name__ == "__main__":
             result = tk.call(func.name, func.arguments)
             print("=" * 100)
             print("Tool Output:")
-            print(result)
+            print(str(result)[:100] + ("..." if len(str(result)) > 100 else ""))
             print()
 
             messages.append(
@@ -63,9 +63,6 @@ if __name__ == "__main__":
             messages.append(response.choices[0].message)
             print("="*100)
             messages.append({"role": "user", "content": input("User: ")})
+            print()
 
             response = openai.chat.completions.create(model="gpt-4o", messages=messages, tools=tk.tools())
-            print("=" * 100)
-            print("Assistant:")
-            print(response.choices[0].message.content)
-            print()
