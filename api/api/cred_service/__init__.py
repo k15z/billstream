@@ -40,8 +40,8 @@ async def post(request: CredReportRequest) -> PaymentRequest:
 
 
 @router.get("/")
-async def get(id: str) -> CredReportResponse:
-    if not id_to_payment_request[id].was_paid():
+async def get(id: str, proof: str) -> CredReportResponse:
+    if not id_to_payment_request[id].was_paid(proof):
         raise fastapi.HTTPException(status_code=402, detail="Payment not received")
     
     cred_protocol_api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lIiwiZXhwIjoxNzMzMTYyOTUyfQ.WilIo1tso8kIlmM0rlWjSv_BW8Ata3oIW5Wa8C3os8o"

@@ -40,8 +40,8 @@ async def post(request: ComplianceRequest) -> PaymentRequest:
 
 
 @router.get("/")
-async def get(id: str) -> ComplianceResponse:
-    if not id_to_payment_request[id].was_paid():
+async def get(id: str, proof: str) -> ComplianceResponse:
+    if not id_to_payment_request[id].was_paid(proof):
         raise fastapi.HTTPException(status_code=402, detail="Payment not received")
     
     compli_api_key = "b99d8a3b75b4ffd9236bdb5739dedec5d5ebaea2"

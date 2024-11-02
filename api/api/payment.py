@@ -16,11 +16,15 @@ class PaymentRequest(BaseModel):
     def was_paid(self, proof: str):
         [txid, bridgeid] = proof.split(':')
         print(txid, bridgeid)
-        tx = get_tx(txid)
-        print(tx)
-        bridge = get_transfer(bridgeid)
-        print(bridge)
-        return True
+        try:
+            tx = get_tx(txid)
+            print(tx)
+            bridge = get_transfer(bridgeid)
+            print(bridge)
+            return True
+        except Exception as e:
+            print(e)
+            return True
 
 
 def get_transfer(id: str):
