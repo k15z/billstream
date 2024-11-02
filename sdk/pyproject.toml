@@ -7,9 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "3.10.*"
-solathon = "^1.0.4"
 requests = "^2.32.3"
 python-dotenv = "^1.0.1"
+solders = "0.21.0"
+solana = "^0.35.0"
 
 
 [build-system]

@@ -1,43 +1,52 @@
 import json
 from base64 import b64decode, b64encode
-from solathon import Client, Transaction, PublicKey, Keypair
-from solathon.core.instructions import transfer
 from sdk.payments.privy import sign_message
+from solana.rpc.api import Client
+import solders.system_program as sp
+
+from solders.hash import Hash
+from solders.keypair import Keypair
+from solders.message import MessageV0, to_bytes_versioned
+from solders.system_program import TransferParams, transfer
+from solders.transaction import VersionedTransaction
+from solders.pubkey import Pubkey
+from solders.null_signer import NullSigner
+from solders.signature import Signature
+
+# Note that Keypair() will always give a public key that is valid for users
+
 
 client = Client("https://api.devnet.solana.com")
 
 def transfer_sol(amount, to, sender):
-    recent_blockhash=client.get_latest_blockhash().blockhash
+    toKey = Pubkey.from_string(to)
+    senderKey = Pubkey.from_string(sender)
 
-    instruction = transfer(
-        from_public_key=PublicKey(sender),
-        to_public_key=PublicKey(to),
-        lamports=amount
+    ix = transfer(
+        TransferParams(
+            from_pubkey=senderKey, to_pubkey=toKey, lamports=amount
+        )
     )
+    blockhash = client.get_latest_blockhash().value.blockhash
 
-    transaction = Transaction(
-        instructions=[instruction],
-        signers=[PublicKey(sender)],
-        recent_blockhash=recent_blockhash,
+    msg = MessageV0.try_compile(
+        payer=senderKey,
+        instructions=[ix],
+        address_lookup_table_accounts=[],
+        recent_blockhash=blockhash,
     )
+    tx = VersionedTransaction(msg, (NullSigner(senderKey),))
 
-    txn_bytes = transaction.compile_transaction()
-    response = sign_message(sender, txn_bytes)
+    serialized = bytes(tx)
+    deserialized = VersionedTransaction.from_bytes(serialized)
+    assert deserialized == tx
 
-    print(response.text)
+    deserialized_message = deserialized.message
+    response = sign_message(sender, to_bytes_versioned(deserialized_message))
     signature: str = json.loads(response.text)["data"]["signature"]
 
-    signed = Transaction(
-        instructions=[instruction],
-        signers=[PublicKey(sender)],
-        recent_blockhash=recent_blockhash,
-    )
+    sigs = deserialized.signatures
+    sigs[0] = Signature.from_bytes(b64decode(signature.encode('utf-8')))
+    deserialized.signatures = sigs
 
-    signed.sign([b64decode(signature.encode('utf-8'))])
-
-    serialized = signed.serialize()
-
-    return client.build_and_send_request(
-        "sendTransaction",
-        [signed.serialize(), {"encoding": "base64"}]
-    )
+    return client.send_transaction(deserialized)
